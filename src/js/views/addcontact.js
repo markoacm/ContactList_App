@@ -1,57 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const AddNewContact = () => {
+
+  const [data, setData] = useState({})
+
   const handleChange = (e) => {
-    console.log(e);
+    setData({...data, [e.target.id]: e.target.value})
   };
+
+  const handleSubmit =(e)=>{
+    e.preventDefault();
+  }
   return (
     <div className="container p-2">
       <div className="row ">
         <h2 className=" text-center m-3 ">Add a new contact</h2>
+        <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label htmlFor="exampleFormControlInput1" className="form-label">
+          <label htmlFor="name" className="form-label">
             Full Name
           </label>
           <input
             type="text"
             className="form-control"
-            id="exampleFormControlInput1"
+            id="name"
             placeholder="Full Name"
             onChange={handleChange}
           />
         </div>
         <div className="mb-3">
-          <label for="formGroupExampleInput2" className="form-label">
+          <label htmlFor="email" className="form-label">
             Email
           </label>
           <input
             type="email"
             className="form-control"
-            id="formGroupExampleInput2"
+            id="email"
             placeholder="name@example.com"
+            onChange={handleChange}
           />
         </div>
         <div className="mb-3">
-          <label for="formGroupExampleInput3" className="form-label">
+          <label htmlFor="phone" className="form-label">
             Phone
           </label>
           <input
             type="text"
             className="form-control"
-            id="formGroupExampleInput2"
+            id="phone"
             placeholder="enter phone number"
+            onChange={handleChange}
           />
         </div>
         <div className="mb-3">
-          <label for="formGroupExampleInput4" className="form-label">
+          <label htmlFor="address" className="form-label">
             Address
           </label>
           <input
             type="text"
             className="form-control"
-            id="formGroupExampleInput2"
+            id="address"
             placeholder="enter address"
+            onChange={handleChange}
           />
         </div>
         <div className="d-flex justify-content-center m-3 ">
@@ -63,6 +74,7 @@ export const AddNewContact = () => {
         <Link to={"/"} className="my-4">
           Go back to contacts
         </Link>
+        </form>
       </div>
     </div>
   );
