@@ -10,7 +10,28 @@ export const AddNewContact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
+
+    const config = {
+      method: "POST", // or 'PUT'
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    };
+
+    fetch("https://playground.4geeks.com/apis/fake/contact/", config)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((response) => {
+        console.log("Success:", response);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
   return (
     <div className="container p-2">

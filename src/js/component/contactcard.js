@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const ContactCard = () => {
   return (
@@ -12,7 +13,7 @@ export const ContactCard = () => {
             style={{ width: 200, height: "auto" }}
           />
         </div>
-        <div className="col-md-8">
+        <div className="col-md-6">
           <div className="card-body text-start">
             <h5 className="card-title ">Name</h5>
 
@@ -26,10 +27,17 @@ export const ContactCard = () => {
               <span className="ps-3">Phone Number</span>
             </p>
             <p className="card-text">
-              <i class="fas fa-envelope"></i>
+              <i className="fas fa-envelope"></i>
               <span className="ps-3">Email</span>
             </p>
           </div>
+        </div>
+
+        <div className="col-md-2 mt-3">
+          <Link to="/addcontact">
+            <i className="fas fa-pen fa-lg pe-3 text-secondary"></i>
+          </Link>
+          <i class="fas fa-trash fa-lg ps-3 text-danger"></i>
         </div>
       </div>
     </div>
