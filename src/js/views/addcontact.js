@@ -1,15 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../store/appContext";
+import { useContext } from "react";
 
 export const AddNewContact = () => {
+  const { actions } = useContext(Context);
   const [data, setData] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.id]: e.target.value });
+    setData({
+      ...data,
+      [e.target.id]: e.target.value,
+      agenda_slug: "Marco_Agenda",
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(data);
 
     const config = {
       method: "POST", // or 'PUT'
@@ -18,26 +27,31 @@ export const AddNewContact = () => {
       },
       body: JSON.stringify(data),
     };
-
     fetch("https://playground.4geeks.com/apis/fake/contact/", config)
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error("Failed to add contact");
         }
         return res.json();
       })
       .then((response) => {
-        console.log("Success:", response);
+        console.log("Contact successfully added!", response);
+
+        actions.loadAllContacts();
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+    // setTimeout(() => {
+    //   navigate("/");
+    // }, 1000);
   };
+
   return (
     <div className="container p-2">
       <div className="row ">
         <h2 className=" text-center m-3 ">Add a new contact</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
               Full Name
