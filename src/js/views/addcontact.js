@@ -5,7 +5,13 @@ import { useContext } from "react";
 
 export const AddNewContact = () => {
   const { actions } = useContext(Context);
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+    address: "",
+    agenda_slug: "Marco_Agenda",
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -53,13 +59,13 @@ export const AddNewContact = () => {
         <h2 className=" text-center m-3 ">Add a new contact</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-3">
-            <label htmlFor="name" className="form-label">
+            <label htmlFor="fullName" className="form-label">
               Full Name
             </label>
             <input
               type="text"
               className="form-control"
-              id="name"
+              id="full_name"
               placeholder="Full Name"
               onChange={handleChange}
             />
@@ -81,7 +87,7 @@ export const AddNewContact = () => {
               Phone
             </label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               id="phone"
               placeholder="enter phone number"
