@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-import { useContext } from "react";
+import { useNavigate, useParams } from "react-router";
+import { Link } from "react-router-dom";
 
-export const AddNewContact = () => {
+export const EditContact = () => {
+  const { id } = useParams();
+
   const { actions } = useContext(Context);
-  const [data, setData] = useState({});
+  const [contact, setContact] = useState({
+    full_name: "",
+    address: "",
+    phone: "",
+    email: "",
+  });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setData({
-      ...data,
+    setContact({
+      ...contact,
       [e.target.id]: e.target.value,
       agenda_slug: "Marco_Agenda",
     });
@@ -18,29 +25,29 @@ export const AddNewContact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(data);
+    console.log(contact);
 
     const config = {
-      method: "POST", // or 'PUT'
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(contact),
     };
-    fetch("https://playground.4geeks.com/apis/fake/contact/", config)
+    fetch(`https://playground.4geeks.com/apis/fake/contact/${id}`, config)
       .then((res) => {
         if (!res.ok) {
-          throw new Error("Failed to add contact");
+          throw new Error("Failed to update contact");
         }
         return res.json();
       })
       .then((response) => {
-        console.log("Contact successfully added!", response);
+        console.log("Contact successfully updated!", response);
 
         actions.loadAllContacts();
         setTimeout(() => {
           navigate("/");
-        }, 1000);
+        }, 2000);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -50,7 +57,7 @@ export const AddNewContact = () => {
   return (
     <div className="container p-2">
       <div className="row ">
-        <h2 className=" text-center m-3 ">Add a new contact</h2>
+        <h2 className=" text-center m-3 ">Edit contact information</h2>
         <form onSubmit={(e) => handleSubmit(e)}>
           <div className="mb-3">
             <label htmlFor="fullName" className="form-label">
@@ -60,6 +67,7 @@ export const AddNewContact = () => {
               type="text"
               className="form-control"
               id="full_name"
+              value={contact.full_name}
               placeholder="Full Name"
               onChange={handleChange}
             />
@@ -72,6 +80,7 @@ export const AddNewContact = () => {
               type="email"
               className="form-control"
               id="email"
+              value={contact.email}
               placeholder="name@example.com"
               onChange={handleChange}
             />
@@ -84,6 +93,7 @@ export const AddNewContact = () => {
               type="number"
               className="form-control"
               id="phone"
+              value={contact.phone}
               placeholder="enter phone number"
               onChange={handleChange}
             />
@@ -96,13 +106,14 @@ export const AddNewContact = () => {
               type="text"
               className="form-control"
               id="address"
+              value={contact.address}
               placeholder="enter address"
               onChange={handleChange}
             />
           </div>
           <div className="d-flex justify-content-center m-3 ">
             <button type="submit" className="btn btn-primary w-75">
-              Save Contact
+              Update Contact
             </button>
           </div>
 
